@@ -6,6 +6,7 @@ lazy val server = (project in file("server")).settings(commonSettings).settings(
   pipelineStages := Seq(digest, gzip),
   // triggers scalaJSPipeline when using compile or continuous compilation
   compile in Compile := ((compile in Compile) dependsOn scalaJSPipeline).value,
+  libraryDependencies += "javax.xml.bind" % "jaxb-api" % "2.4.0-b180830.0359",
   libraryDependencies ++= Seq(
     "com.vmunier" %% "scalajs-scripts" % "1.1.2",
     guice,

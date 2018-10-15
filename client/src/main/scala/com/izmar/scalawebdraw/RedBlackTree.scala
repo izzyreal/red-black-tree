@@ -62,4 +62,23 @@ class RedBlackTree {
     None
   }
 
+  def findMaxDepth(n: Mut[Node]): Int = {
+
+    var yDepth = 0
+    var subRoot = n.getMut
+
+    while (subRoot != null) {
+      if (subRoot.left.getMut != null) {
+        subRoot = subRoot.left.getMut
+        yDepth += 1
+      } else if (subRoot.right.getMut != null) {
+        subRoot = subRoot.right.getMut
+        yDepth += 1
+      } else {
+        subRoot = null
+      }
+    }
+    yDepth
+  }
+
 }
