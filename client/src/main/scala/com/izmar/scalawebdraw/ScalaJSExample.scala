@@ -12,14 +12,25 @@ object ScalaJSExample {
   def main(args: Array[String]): Unit = {
     dom.document.getElementById("scalajsShoutOut").textContent = SharedMessages.itWorks
 
-    tree.put(23.toChar, 23.toChar)
-    tree.put(22.toChar, 22.toChar)
-    tree.put(21.toChar, 21.toChar)
-    tree.put(20.toChar, 20.toChar)
-    tree.put(24.toChar, 24.toChar)
-    tree.put(25.toChar, 25.toChar)
-    tree.put(26.toChar, 26.toChar)
+//    tree.put(23.toChar, 23.toChar)
+//    tree.put(22.toChar, 22.toChar)
+//    tree.put(21.toChar, 21.toChar)
+//    tree.put(20.toChar, 20.toChar)
+//    tree.put(24.toChar, 24.toChar)
+//    tree.put(25.toChar, 25.toChar)
+//    tree.put(26.toChar, 26.toChar)
 //    tree.put(27.toChar, 27.toChar)
+
+    tree.put('G')
+    tree.put('D')
+    tree.put('E')
+    tree.put('C')
+    tree.put('I')
+    tree.put('H')
+    tree.put('J')
+    tree.put('B')
+    tree.put('F')
+    tree.put('K')
 
     drawRecursive(tree.root, Mut[Int](0), Mut[Int](0))
 
@@ -50,35 +61,31 @@ object ScalaJSExample {
     val canvas = dom.document.getElementById("canvas").asInstanceOf[Canvas]
     val context = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     context.font="30px Verdana";
-    if (color) {
-      context.strokeStyle = "#EE1818"
-      context.fillStyle = "#EE1818"
-
-    } else {
-      context.strokeStyle = "#000000"
-      context.fillStyle = "#000000"
-    }
 
     val radius = 30
     val lineHeight = 40
     val interval = radius + lineHeight
-    val x = (canvas.width / 2) + xDepthOffset * lineHeight
+    val x = (canvas.width / 2) + (xDepthOffset * 2 * lineHeight)
     val y = radius + yDepth * interval + 2
+
+    val maxDepth1 = if (maxDepth == 0) 0.5 else maxDepth
+//    val maxDepth1 = maxDepth
+
+    if (color) {
+      context.strokeStyle = "#EE1818"
+    } else {
+      context.strokeStyle = "#000000"
+    }
 
     context.beginPath
     context.moveTo(x, y)
-    context.lineTo(x - radius - (lineHeight * maxDepth), y + lineHeight + radius)
+    context.lineTo(x - (lineHeight * maxDepth1 * 2), y + lineHeight + radius)
     context.stroke()
 
     context.beginPath
     context.moveTo(x, y)
-    context.lineTo(radius + x + (lineHeight * maxDepth), y + lineHeight + radius)
-    if (color) {
-      context.strokeStyle = "#EE1818"
+    context.lineTo(x + (lineHeight * maxDepth1 * 2), y + lineHeight + radius)
 
-    } else {
-      context.strokeStyle = "#000000"
-    }
     context.stroke()
 
 
@@ -99,8 +106,8 @@ object ScalaJSExample {
       context.strokeStyle = "#000000"
       context.fillStyle = "#000000"
     }
-    context.fillText(key.toInt.toString, x, y)
-    context.strokeText(key.toInt.toString, x, y)
+    context.fillText(key.toString, x, y)
+    context.strokeText(key.toString, x, y)
 
   }
 

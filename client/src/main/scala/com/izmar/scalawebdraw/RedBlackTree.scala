@@ -20,6 +20,10 @@ class RedBlackTree {
 
   var root : Mut[Node] = new Mut[Node](null)
 
+  def put(key: Character): Unit = {
+    put(key, key)
+  }
+
   def put(key: Character, value: Character): Unit = {
     put((root), key, value)
   }
@@ -64,6 +68,7 @@ class RedBlackTree {
 
   def findMaxDepth(n: Mut[Node]): Int = {
 
+    /*
     var yDepth = 0
     var subRoot = n.getMut
 
@@ -79,6 +84,13 @@ class RedBlackTree {
       }
     }
     yDepth
+    */
+    return findMaxDepthRecursive(n)
+  }
+
+  def findMaxDepthRecursive(n: Mut[Node]): Int = {
+    if (n.getMut == null) return -1
+    return 1 + Math.max(findMaxDepthRecursive(n.getMut.left), findMaxDepthRecursive(n.getMut.right))
   }
 
 }
