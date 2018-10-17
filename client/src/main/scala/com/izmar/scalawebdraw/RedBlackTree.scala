@@ -9,6 +9,20 @@ class Node(var key:Character, var value:Character) {
   var left : Mut[Node] = new Mut[Node](null)
   var right : Mut[Node] = new Mut[Node](null)
 
+  // Number of nodes in this subtree
+  var size : Int = 1
+
+  // Height of this subtree
+  var height : Int = 1
+
+  // Coordinates for drawing
+  var xc : Double = 0
+  var yc : Double = 0
+
+  def hasTwoChildren : Boolean = {
+    left.getMut != null && right.getMut != null
+  }
+
 }
 
 object Node{
@@ -19,6 +33,51 @@ object Node{
 class RedBlackTree {
 
   var root : Mut[Node] = new Mut[Node](null)
+
+  def isRed(n: Mut[Node]) : Boolean = {
+    // A null node is always black
+    if (n.getMut == null) return false
+
+    return n.getMut.color == Node.RED
+  }
+
+  def size() : Int = {
+    size(root.getMut)
+  }
+
+  def size(n: Node) : Int = {
+    if (n == null) return 0
+    n.size
+  }
+
+  def height() : Int = {
+    return height(root.getMut)
+  }
+
+  def height(n: Node) : Int = {
+    if (n == null) return 0
+    n.height
+  }
+
+  def rotateLeft(n: Mut[Node]): Unit = {
+    ???
+  }
+
+  def rotateRight(n: Mut[Node]): Unit ={
+    ???
+  }
+
+  def flipColors(n : Mut[Node]): Unit = {
+    if (n.getMut == null) return
+
+    val left = n.getMut.left.getMut
+    val right = n.getMut.right.getMut
+
+    // This method is only used when both children are red
+    if (left != null && left.color == Node.RED) left.color = Node.BLACK
+    if (right != null && right.color == Node.RED) right.color = Node.BLACK
+
+  }
 
   def put(key: Character): Unit = {
     put(key, key)
@@ -36,8 +95,11 @@ class RedBlackTree {
       val newNode = new Node(key, value)
       if (root.getMut == null) newNode.color = Node.BLACK
       n.getMut = newNode
+
       return n
     }
+
+    if (n.getMut.hasTwoChildren && isRed(n.getMut.left) && isRed(n.getMut.right)) flipColors(n)
 
     if (key < n.getMut.key) {
       put(n.getMut.left, key, value)
@@ -67,24 +129,6 @@ class RedBlackTree {
   }
 
   def findMaxDepth(n: Mut[Node]): Int = {
-
-    /*
-    var yDepth = 0
-    var subRoot = n.getMut
-
-    while (subRoot != null) {
-      if (subRoot.left.getMut != null) {
-        subRoot = subRoot.left.getMut
-        yDepth += 1
-      } else if (subRoot.right.getMut != null) {
-        subRoot = subRoot.right.getMut
-        yDepth += 1
-      } else {
-        subRoot = null
-      }
-    }
-    yDepth
-    */
     return findMaxDepthRecursive(n)
   }
 

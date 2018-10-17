@@ -12,15 +12,7 @@ object ScalaJSExample {
   def main(args: Array[String]): Unit = {
     dom.document.getElementById("scalajsShoutOut").textContent = SharedMessages.itWorks
 
-//    tree.put(23.toChar, 23.toChar)
-//    tree.put(22.toChar, 22.toChar)
-//    tree.put(21.toChar, 21.toChar)
-//    tree.put(20.toChar, 20.toChar)
-//    tree.put(24.toChar, 24.toChar)
-//    tree.put(25.toChar, 25.toChar)
-//    tree.put(26.toChar, 26.toChar)
-//    tree.put(27.toChar, 27.toChar)
-
+    /*
     tree.put('G')
     tree.put('D')
     tree.put('E')
@@ -31,6 +23,12 @@ object ScalaJSExample {
     tree.put('B')
     tree.put('F')
     tree.put('K')
+    */
+
+
+    tree.put('C')
+    tree.put('A')
+    //tree.put('B')
 
     drawRecursive(tree.root, Mut[Int](0), Mut[Int](0))
 
@@ -41,7 +39,7 @@ object ScalaJSExample {
 
       val maxDepth = tree.findMaxDepth(n)
 
-      drawNode(n.getMut.key, n.getMut.color, yDepth.getMut, maxDepth, xDepthOffset.getMut)
+      drawNode(n.getMut, yDepth.getMut, maxDepth, xDepthOffset.getMut)
 
       if (n.getMut.left.getMut != null) {
         val yDepth1 = Mut[Int](yDepth.getMut + 1)
@@ -56,8 +54,8 @@ object ScalaJSExample {
     }
   }
 
-  def drawNode(key: Character, color: Boolean, yDepth: Int, maxDepth: Int, xDepthOffset: Int): Unit = {
-    println("Drawing node with key " + key.toInt)
+  def drawNode(n: Node, yDepth: Int, maxDepth: Int, xDepthOffset: Int): Unit = {
+    println("Drawing node with key " + n.key.toInt)
     val canvas = dom.document.getElementById("canvas").asInstanceOf[Canvas]
     val context = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     context.font="30px Verdana";
@@ -71,7 +69,7 @@ object ScalaJSExample {
     val maxDepth1 = if (maxDepth == 0) 0.5 else maxDepth
 //    val maxDepth1 = maxDepth
 
-    if (color) {
+    if (n.left.getMut != null && n.left.getMut.color == Node.RED) {
       context.strokeStyle = "#EE1818"
     } else {
       context.strokeStyle = "#000000"
@@ -82,6 +80,12 @@ object ScalaJSExample {
     context.lineTo(x - (lineHeight * maxDepth1 * 2), y + lineHeight + radius)
     context.stroke()
 
+    if (n.right.getMut != null && n.right.getMut.color == Node.RED) {
+      context.strokeStyle = "#EE1818"
+    } else {
+      context.strokeStyle = "#000000"
+    }
+
     context.beginPath
     context.moveTo(x, y)
     context.lineTo(x + (lineHeight * maxDepth1 * 2), y + lineHeight + radius)
@@ -91,23 +95,25 @@ object ScalaJSExample {
 
     context.beginPath();
     context.arc(x,y,30,0,2*Math.PI);
-    context.strokeStyle = "#000000"
+    if (n.color == Node.RED) {
+      context.strokeStyle = "#EE1818"
+    } else {
+      context.strokeStyle = "#000000"
+    }
     context.stroke()
     context.fillStyle= "#FFFFFF"
     context.fill()
 
     context.textAlign = "center"
     context.textBaseline = "middle"
-    if (color) {
-      context.strokeStyle = "#EE1818"
+    if (n.color == Node.RED) {
       context.fillStyle = "#EE1818"
 
     } else {
-      context.strokeStyle = "#000000"
       context.fillStyle = "#000000"
     }
-    context.fillText(key.toString, x, y)
-    context.strokeText(key.toString, x, y)
+    context.fillText(n.key.toString, x, y)
+    context.strokeText(n.key.toString, x, y)
 
   }
 
