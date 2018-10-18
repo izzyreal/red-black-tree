@@ -26,9 +26,9 @@ object ScalaJSExample {
     */
 
 
-    tree.put('C')
+    tree.put('S')
+    tree.put('E')
     tree.put('A')
-    //tree.put('B')
 
     drawRecursive(tree.root, Mut[Int](0), Mut[Int](0))
 

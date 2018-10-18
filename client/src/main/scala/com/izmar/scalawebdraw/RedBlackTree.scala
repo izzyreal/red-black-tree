@@ -38,10 +38,28 @@ class RedBlackTree {
     // A null node is always black
     if (n.getMut == null) return false
 
-    return n.getMut.color == Node.RED
+    n.getMut.color == Node.RED
   }
 
-  def size() : Int = {
+  def repair(n: Mut[Node]): Unit = {
+    // if 2 red links in a row, rotate the top of those 2 nodes right
+    //if (true) rotateRight(n)
+
+    // first try rotation, then check to flip colors
+    if (n.getMut.hasTwoChildren && isRed(n.getMut.left) && isRed(n.getMut.right)) flipColors(n)
+
+
+  }
+
+  def rotateRight(n: Mut[Node]): Unit ={
+
+  }
+
+  def rotateLeft(n: Mut[Node]): Unit = {
+
+  }
+
+  def size: Int = {
     size(root.getMut)
   }
 
@@ -94,19 +112,16 @@ class RedBlackTree {
     if (n.getMut == null) {
       val newNode = new Node(key, value)
       if (root.getMut == null) newNode.color = Node.BLACK
-      n.getMut = newNode
-
+      //n.getMut = newNode
       return n
     }
 
-    if (n.getMut.hasTwoChildren && isRed(n.getMut.left) && isRed(n.getMut.right)) flipColors(n)
-
     if (key < n.getMut.key) {
-      put(n.getMut.left, key, value)
+      n.getMut.left = put(n.getMut.left, key, value)
       println("Added left child and resulting key is " + n.getMut.left.getMut.key.toInt)
       return n.getMut.left
     } else if (key > n.getMut.key) {
-      put(n.getMut.right, key, value)
+      n.getMut.right = put(n.getMut.right, key, value)
       println("Added right child and resulting key is " + n.getMut.right.getMut.key.toInt)
       return n.getMut.right
     } else {
